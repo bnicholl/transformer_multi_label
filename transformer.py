@@ -1,3 +1,12 @@
+import torch
+from sklearn.utils import shuffle
+from transformers import AutoTokenizer
+from transformers import ElectraTokenizer, ElectraModel, ElectraForSequenceClassification, AdamW, get_linear_schedule_with_warmup
+from sklearn.utils import shuffle
+from torch import optim
+import copy
+
+
 def elec(input_ids, labels, mask, epochs = 20):
     # this pre logits mask will get multiplied by the final hidden state in our model in order to zero our the
     # mask vectors
