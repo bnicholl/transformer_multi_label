@@ -65,7 +65,19 @@ def elec(input_ids, labels, mask, epochs = 20):
         #335 relates to amount of training examples. 37 realates to max words in sequence. 
         #768 are the indiviudal word vectors
         last_hidden_state = outputs.last_hidden_state
+        
         # this zeros out the mask vectors in the final hidden state, becuase for the vanilla models, it doesn't do that automatically
+        # for example, say our input_ids = [[101,4769, 77, 102, 0, 0]], where the 0's represent masks. Since we running the vanillia model,
+        # and the vanilla model ends on a hidden layer, as opposed to a attention mechanism, it never 0's out the last 2 word vecotors.
+        # this is shown below
+        #outputs.last_hidden_state
+        #Out[120]: 
+        #tensor([[[ 1.0132, -0.4270, -0.2964,  ..., -0.4578,  0.6050,  0.1191],
+        # [ 0.7935, -0.7512, -0.2856,  ...,  0.1178,  0.0712, -0.4344],
+        # [ 0.8716, -0.7868,  0.1454,  ...,  0.2290,  0.3592, -0.1717],
+        # [ 1.0132, -0.4270, -0.2964,  ..., -0.4578,  0.6050,  0.1191],
+        # [ 0.9389, -0.8407, -0.1254,  ...,  0.5575,  0.9512, -0.7111],       These two word vectors 
+        # [ 0.9249, -0.8279, -0.1271,  ...,  0.5662,  0.9262, -0.6858]]],     need to be 0 everywhere
         last_hidden_state_zero_layer = torch.mul(last_hidden_state, pre_logits_mask)
         
         #torch.Size([335, 768]) for below is:
