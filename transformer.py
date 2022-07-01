@@ -7,7 +7,7 @@ from torch import optim
 import copy
 
 
-def elec(input_ids, labels, mask, epochs = 20):
+def elec(input_ids, labels, mask, validation_inputs, validation_labels, validation_mask, epochs = 20):
     # this pre logits mask will get multiplied by the final hidden state in our model in order to zero our the
     # mask vectors
     pre_logits_mask = torch.reshape(mask, (mask.shape[0], mask.shape[1], 1) )
